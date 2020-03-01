@@ -1,4 +1,9 @@
 const path = require("path");
+const postCSSPlugins = [
+    require("postcss-simple-vars"),
+    require("postcss-nested"),
+    require("autoprefixer"),
+]
 
 module.exports = {
     entry: "./app/assets/scripts/App.js",
@@ -7,5 +12,13 @@ module.exports = {
         path: path.resolve(__dirname, "app"),
     },
     mode: "development",
-    watch: true
+    watch: true,
+    module: {
+        rules: [
+            {
+                test: /\.css$/i, // Regular Expression dass es nur auf CSS Dateien zutrifft
+                use: ["style-loader" ,"css-loader", {loader: "postcss-loader", options:{plugins: postCSSPlugins}}] // Only if File Ends in CSS -> Use CSS-Loader for Bundling -> Style-Loader to apply CSS
+            }
+        ]
+    }
 }
